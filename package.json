@@ -9,21 +9,24 @@
     "express": "^4.16.4",
     "jquery": "^3.3.1",
     "mongoose": "^5.4.9",
-    "page": "^1.11.3"
+    "page": "^1.11.3",
+    "tv-maze": "^1.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.2.2",
     "@babel/node": "^7.2.2",
     "babelify": "^10.0.0",
-    "browserify": "^16.2.3"
+    "browserify": "^16.2.3",
+    "standard": "^12.0.1"
   },
   "scripts": {
     "build-js": "NODE_PATH=. browserify -t [ babelify --presets [ @babel/preset-env]  ] src/client/index.js > public/app.js",
     "public": "mkdir -p public",
+    "lint": "standard",
     "copy-files": "cp  src/client/index.css public/app.css && cp src/client/index.html public/index.html",
     "build": "npm run public && npm run build-js && npm run copy-files",
     "serve": "node src/server/index.js",
-    "start": "npm run build-js && npm run serve",
+    "start": "npm run lint && npm run build-js && npm run serve",
     "comentario": "para babel con node, debe estar como dependecie->  --save, y ejecutar: babel-node file.js --presets @babel/preset-env"
   }
 }
