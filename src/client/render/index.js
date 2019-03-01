@@ -10,11 +10,25 @@ var template =
     <h1>:name:</h1>
     <p>:summary:</p>
     <button class="like">Like</button>
-    <span class="count">:count: Me gusta</span>
+    <span class="count">:count: </span>
+    <button class="chat">Chat</button>
   </div>
 </article>`
 
-export default function renderTemplate (shows) {
+var chatTemplate =
+  `<article data-id=:id: class="chat-container">
+    <div class="left img-container">
+      <img src=":img:" alt=":img alt:">
+    </div>
+    <div class="right chat-window">
+      <h1>:name:</h1>
+      <div class="chat-body"></div>
+      <input type="text" name="nickname" class="chat-nick" placeholder="Ingresa tu nickname..." />
+      <input type="text" name="message" class="chat-input" disabled />
+    </div>
+  </article>`
+
+function renderTemplate (shows) {
   $tvShowsContainer.find('.loader').remove()
   shows.forEach(function (show) {
     var article = template
@@ -27,4 +41,24 @@ export default function renderTemplate (shows) {
     var $article = $(article)
     $tvShowsContainer.append($article.fadeIn(3500))
   })
+}
+
+function renderChat (id) {
+  $.ajax('/api/show/' + id, {
+    success: function (show, textStatus, xhr) {
+      var chat = chatTemplate
+        .replace(':id:', id)
+        .replace(':name:', show.name)
+        .replace(':img:', show.image ? show.image.medium : '')
+        .replace(':img alt:', show.name + ' Logo')
+
+      var $chat = $(chat)
+      $tvShowsContainer.append($chat.fadeIn(1000))
+    }
+  })
+}
+
+export {
+  renderTemplate,
+  renderChat
 }

@@ -1,9 +1,21 @@
 var { getVoto, incrementarVoto, addVoto } = require('../lib')
-var router = require('express').Router()
 var tvmaze = require('tv-maze')
+
+var router = require('express').Router()
 const client = tvmaze.createClient()
 
 console.dir(router) // ver las propiedades de 'router'
+
+router.get('/show/:id', (req, res) => {
+  let id = req.params.id
+
+  client.show(id, (err, show) => {
+    if (err) {
+      return res.sendStatus(500).json(err)
+    }
+    res.json(show)
+  })
+})
 
 // GET      api/post
 router.get('/votes', (req, res) => {
@@ -30,13 +42,11 @@ router.post('/vote/:id', (req, res) => {
 })
 
 router.get('/shows', (req, res) => {
-  console.log(`en api/shows`)
   client.shows((err, shows) => {
     if (err) {
       return res.sendStatus(500).json(err)
     }
     addVoto(shows, shows => {
-      console.log(`api/shows--> luego de addVoto`)
       // devuelve lista de shows
       res.json(shows)
     })

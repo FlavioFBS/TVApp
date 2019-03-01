@@ -31,9 +31,15 @@ io.on('connection', (socket) => {
       if (err) return socket.emit('vote:error', err)
 
       // evento que avise ya se realizo el voto
-      socket.emit('vote:done', vote)
+      // emitir el evento a todos los sockets
+      io.sockets.emit('vote:done', vote)
     })
-    socket.emit('pong')
+  })
+
+  socket.on('message', msg => {
+    // console.log(msg)
+    // enviar mensajes a los demás que estén conectados:
+    socket.broadcast.emit('message', msg)
   })
 })
 
