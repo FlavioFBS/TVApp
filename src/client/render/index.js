@@ -10,7 +10,7 @@ var template =
     <h1>:name:</h1>
     <p>:summary:</p>
     <button class="like">Like</button>
-    <span class="count">:count: Likes</span>
+    <span class="count">:count: Me gusta</span>
   </div>
 </article>`
 
